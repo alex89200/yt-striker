@@ -52,10 +52,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandLineArguments.cs" />
+    <Compile Include="Model\BrowserSession.cs" />
+    <Compile Include="ReportStrategies\IReportStrategy.cs" />
+    <Compile Include="ReportStrategies\ReportChannelStrategy.cs" />
+    <Compile Include="Model\CommandLineArguments.cs" />
+    <Compile Include="Helpers\Logger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="YouTubeProcessor.cs" />
+    <Compile Include="Model\ReportMode.cs" />
+    <Compile Include="ReportStrategies\ReportVideosStrategy.cs" />
+    <Compile Include="Model\WebBrowser.cs" />
+    <Compile Include="ReportStrategies\ReportStrategyBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -69,7 +76,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(ProjectDir)\Drivers\*.* $(TargetDir)  /y /i</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(ProjectDir)\Drivers\*.*" "$(TargetDir)"  /y /i</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
