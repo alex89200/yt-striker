@@ -20,10 +20,12 @@ namespace YTStriker.ReportStrategies
 
         public override Task Process()
         {
-            BrowserSession session = CreateSession(_args.Browser);
+            BrowserSession session = null;
 
             try
             {
+                session =  CreateSession(_args.Browser);
+
                 ICollection<string> videos = GetVideosUrls(session, _args.ChannelName, _args.Limit);
                 Log($"Videos to process: {videos.Count}", session.Sid);
 
@@ -46,7 +48,7 @@ namespace YTStriker.ReportStrategies
                 {
                     try
                     {
-                        Log($"\nProcessing: {url}", session.Sid);
+                        Log($"Processing: {url}", session.Sid, false, ConsoleColor.DarkYellow);
                         session.Driver.Navigate().GoToUrl(url);
 
                         ReportVideoOpenDialog(session);
@@ -55,13 +57,13 @@ namespace YTStriker.ReportStrategies
                     }
                     catch (Exception e)
                     {
-                        Log($"  [FAIL] {e.Message}", session.Sid);
+                        Log($"  [FAIL] {e.Message}", session.Sid, false, ConsoleColor.Red);
                     }
                 }
             }
             catch (Exception e)
             {
-                Log($"Processing failed with exception: {e.Message}", session.Sid);
+                Log($"ERROR: {e.Message}", session?.Sid ?? -1, false, ConsoleColor.Red);
             }
             finally
             {
@@ -247,7 +249,7 @@ namespace YTStriker.ReportStrategies
 
             wait.Until(p => p.FindElement(By.CssSelector(@"yt\-confirm\-dialog\-renderer #main")));
 
-            Log("  [OK] Report sent!", session.Sid, true);
+            Log("  [OK] Report sent!", session.Sid, true, ConsoleColor.DarkGreen);
         }
     }
 }
