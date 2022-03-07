@@ -218,6 +218,8 @@ namespace YTStriker.ReportStrategies
             await Task.Delay(2000);
             submit.Click();
 
+            wait.Until(p => p.FindElement(By.CssSelector(@"yt\-confirm\-dialog\-renderer #main")));
+
             Log("  [OK] Report sent!", session.Sid, true);
         }
     }

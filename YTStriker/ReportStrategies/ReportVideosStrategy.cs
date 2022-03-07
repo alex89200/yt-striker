@@ -245,6 +245,8 @@ namespace YTStriker.ReportStrategies
             IWebElement submit = wait.Until(p => p.FindElement(By.CssSelector(@"#buttons #submit\-button")));
             submit.Click();
 
+            wait.Until(p => p.FindElement(By.CssSelector(@"yt\-confirm\-dialog\-renderer #main")));
+
             Log("  [OK] Report sent!", session.Sid, true);
         }
     }
