@@ -13,6 +13,7 @@ namespace YTStriker
         {
 #if DEBUG
             args = GetDebugArgs(ReportMode.videos, "RT", 2, 0, 20, WebBrowser.edge, true);
+            //args = GetDebugArgs(ReportMode.channel, "TARAFTARKANALIHD", 5, -1, 20, WebBrowser.edge, true);
 #endif
 
             CommandLineArguments parsedArgs;
@@ -34,9 +35,9 @@ namespace YTStriker
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                
-                proc.Process();
-                
+
+                proc.Process().Wait();
+
                 Console.WriteLine("Processing done");
                 Console.ReadKey();
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
@@ -71,12 +72,12 @@ namespace YTStriker.ReportStrategies
 
         protected void CloseSession(BrowserSession session)
         {
-            session.Driver?.Quit();
+            session?.Driver?.Quit();
 
-            Log("Session closed.", session.Sid);
+            Log("Session closed.", session?.Sid ?? -1);
         }
 
-        public abstract void Process();
+        public abstract Task Process();
 
         protected void Log(string message, int sid = -1, bool verbose = false)
         {

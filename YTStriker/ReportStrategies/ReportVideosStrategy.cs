@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
@@ -17,7 +18,7 @@ namespace YTStriker.ReportStrategies
             : base(args, logger)
         { }
 
-        public override void Process()
+        public override Task Process()
         {
             BrowserSession session = CreateSession(_args.Browser);
 
@@ -66,6 +67,8 @@ namespace YTStriker.ReportStrategies
             {
                 CloseSession(session);
             }
+
+            return Task.CompletedTask;
         }
 
         private ICollection<string> GetVideosUrls(BrowserSession session, string channelName, int limit)
