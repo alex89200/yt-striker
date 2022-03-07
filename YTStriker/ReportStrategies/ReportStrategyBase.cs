@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
@@ -78,6 +80,37 @@ namespace YTStriker.ReportStrategies
         }
 
         public abstract Task Process();
+
+        protected List<string> GetChannelsList(BrowserSession session)
+        {
+            List<string> result = new List<string>();
+
+            // Fill the channels list
+            if (string.IsNullOrEmpty(_args.ChannelName) == false)
+            {
+                result.Add(_args.ChannelName);
+            }
+            else
+            {
+                result.AddRange(File.ReadLines(_args.InputFile));
+            }
+
+            Log($"Channels to process: {result.Count}", session.Sid);
+
+            #region Verbose log channels
+            if (_args.Verbose)
+            {
+                foreach (string channel in result)
+                {
+                    Log($"  {channel}", session.Sid, true);
+                }
+            }
+            #endregion
+
+            Log("-----------------", session.Sid);
+
+            return result;
+        }
 
         protected void Log(string message, int sid = -1, bool verbose = false, ConsoleColor color = ConsoleColor.Gray)
         {

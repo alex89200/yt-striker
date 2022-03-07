@@ -27,31 +27,7 @@ namespace YTStriker.ReportStrategies
                 session = CreateSession(_args.Browser);
 
                 string description = File.ReadAllText(_args.DescriptionFile);
-
-                // Fill the channels list
-                List<string> channels = new List<string>();
-                if (string.IsNullOrEmpty(_args.ChannelName) == false)
-                {
-                    channels.Add(_args.ChannelName);
-                }
-                else
-                {
-                    channels.AddRange(File.ReadLines(_args.InputFile));
-                }
-
-                Log($"Channels to process: {channels.Count}", session.Sid);
-
-                #region Verbose log channels
-                if (_args.Verbose)
-                {
-                    foreach (string channel in channels)
-                    {
-                        Log($"  {channel}", session.Sid, true);
-                    }
-                }
-                #endregion
-
-                Log("-----------------");
+                List<string> channels = GetChannelsList(session);
 
                 // Process channels
                 foreach (string channelName in channels)

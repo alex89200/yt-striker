@@ -26,38 +26,45 @@ namespace YTStriker.ReportStrategies
             {
                 session =  CreateSession(_args.Browser);
 
-                ICollection<string> videos = GetVideosUrls(session, _args.ChannelName, _args.Limit);
-                Log($"Videos to process: {videos.Count}", session.Sid);
+                List<string> channels = GetChannelsList(session);
 
-                #region Verbose log videos
-                if (_args.Verbose)
+                foreach (string channelName in channels)
                 {
+                    ICollection<string> videos = GetVideosUrls(session, channelName, _args.Limit);
+                    Log($"Videos to process: {videos.Count}", session.Sid);
+
+                    #region Verbose log videos
+
+                    if (_args.Verbose)
+                    {
+                        foreach (string url in videos)
+                        {
+                            Log(url, session.Sid, true);
+                        }
+                    }
+
+                    #endregion
+
+                    Log("--------------------", session.Sid);
+
+                    string description = File.ReadAllText(_args.DescriptionFile);
+
+                    // Report videos
                     foreach (string url in videos)
                     {
-                        Log(url, session.Sid, true);
-                    }
-                }
-                #endregion
+                        try
+                        {
+                            Log($"Processing: {url}", session.Sid, false, ConsoleColor.DarkYellow);
+                            session.Driver.Navigate().GoToUrl(url);
 
-                Log("--------------------", session.Sid);
-
-                string description = File.ReadAllText(_args.DescriptionFile);
-
-                // Report videos
-                foreach (string url in videos)
-                {
-                    try
-                    {
-                        Log($"Processing: {url}", session.Sid, false, ConsoleColor.DarkYellow);
-                        session.Driver.Navigate().GoToUrl(url);
-
-                        ReportVideoOpenDialog(session);
-                        ReportVideoChooseComplaint(session, _args.MainComplaint, _args.SubComplaint);
-                        ReportVideoSubmit(session, description);
-                    }
-                    catch (Exception e)
-                    {
-                        Log($"  [FAIL] {e.Message}", session.Sid, false, ConsoleColor.Red);
+                            ReportVideoOpenDialog(session);
+                            ReportVideoChooseComplaint(session, _args.MainComplaint, _args.SubComplaint);
+                            ReportVideoSubmit(session, description);
+                        }
+                        catch (Exception e)
+                        {
+                            Log($"  [FAIL] {e.Message}", session.Sid, false, ConsoleColor.Red);
+                        }
                     }
                 }
             }
