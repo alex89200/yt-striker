@@ -30,11 +30,11 @@ namespace YTStriker.Model
             HelpText = "Processing mode. Possible values:\nchannel - report author of the channel\nvideos - report separate videos.")]
         public ReportMode Mode { get; set; }
 
-        [Option('i', "complaint", Default = 2, Required = false,
+        [Option('i', "complaint", Default = -1, Required = false,
             HelpText = "Index of the main complaint. Default is 'Violence'.")]
         public int MainComplaint { get; set; }
 
-        [Option('o', "sub-complaint", Default = 0, Required = false,
+        [Option('o', "sub-complaint", Default = -1, Required = false,
             HelpText = "Index of the sub-complaint in a dropdown if relevant. Default is the first in the list.")]
         public int SubComplaint { get; set; }
 
@@ -45,5 +45,9 @@ namespace YTStriker.Model
         [Option('t', "timeout", Default = 60, Required = false, 
             HelpText = "Page loading timeout")]
         public int Timeout { get; set; }
+
+        [Option("dry-run", Default = false,
+            HelpText = "Do the full flow, but don't press on the 'Submit' button in the end")]
+        public bool DryRun { get; set; }
     }
 }

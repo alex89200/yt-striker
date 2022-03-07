@@ -18,7 +18,7 @@ namespace YTStriker.ReportStrategies
             : base(args, logger)
         { }
 
-        public override Task Process()
+        public override async Task Process()
         {
             BrowserSession session = null;
 
@@ -30,7 +30,7 @@ namespace YTStriker.ReportStrategies
 
                 foreach (string channelName in channels)
                 {
-                    ICollection<string> videos = GetVideosUrls(session, channelName, _args.Limit);
+                    ICollection<string> videos = await GetVideosUrls(session, channelName, _args.Limit);
                     Log($"Videos to process: {videos.Count}", session.Sid);
 
                     #region Verbose log videos
@@ -39,7 +39,7 @@ namespace YTStriker.ReportStrategies
                     {
                         foreach (string url in videos)
                         {
-                            Log(url, session.Sid, true);
+                            Log($"  {url}", session.Sid, true);
                         }
                     }
 
@@ -56,10 +56,13 @@ namespace YTStriker.ReportStrategies
                         {
                             Log($"Processing: {url}", session.Sid, false, ConsoleColor.DarkYellow);
                             session.Driver.Navigate().GoToUrl(url);
+                            await Task.Delay(1000);
 
                             ReportVideoOpenDialog(session);
-                            ReportVideoChooseComplaint(session, _args.MainComplaint, _args.SubComplaint);
+                            await ReportVideoChooseComplaint(session, _args.MainComplaint, _args.SubComplaint);
                             ReportVideoSubmit(session, description);
+
+                            await Task.Delay(2000);
                         }
                         catch (Exception e)
                         {
@@ -76,16 +79,15 @@ namespace YTStriker.ReportStrategies
             {
                 CloseSession(session);
             }
-
-            return Task.CompletedTask;
         }
 
-        private ICollection<string> GetVideosUrls(BrowserSession session, string channelName, int limit)
+        private async Task<ICollection<string>> GetVideosUrls(BrowserSession session, string channelName, int limit)
         {
             HashSet<string> result = new HashSet<string>();
 
             Uri videosUri = new Uri($"https://www.youtube.com/c/{channelName}/videos");
             session.Driver.Navigate().GoToUrl(videosUri);
+            await Task.Delay(2000);
 
             while (result.Count < limit)
             {
@@ -100,8 +102,6 @@ namespace YTStriker.ReportStrategies
                 {
                     string url = videoTitles[i].GetAttribute("href");
                     result.Add(url);
-
-                    Log(url, session.Sid, true);
                 }
 
                 // Exit if no additional videos are loaded or we hit a limit
@@ -165,7 +165,7 @@ namespace YTStriker.ReportStrategies
             }
         }
 
-        private void ReportVideoChooseComplaint(BrowserSession session, int optionIndex, int subOptionIndex)
+        private async Task ReportVideoChooseComplaint(BrowserSession session, int optionIndex, int subOptionIndex)
         {
             WebDriverWait wait = session.Wait;
             Log("  Looking for possible complaint options...", session.Sid, true);
@@ -217,6 +217,7 @@ namespace YTStriker.ReportStrategies
             KeyValuePair<int, int> curOptionMap = optToSubMap[optionIndex];
             IWebElement selectedOption = options[curOptionMap.Key];
             selectedOption.Click();
+            await Task.Delay(1000);
 
             // If sub-option dropdown exists
             if (curOptionMap.Value > -1)
@@ -234,6 +235,11 @@ namespace YTStriker.ReportStrategies
 
                 // Click needed sub-option. The first element is the dropdown-trigger itself - skip it.
                 subOpt[subOptionIndex + 1].Click();
+                await Task.Delay(1000);
+            }
+            else
+            {
+                Log("  Sub-option selection skipped", session.Sid, true);
             }
 
             // Click on Next
@@ -250,13 +256,20 @@ namespace YTStriker.ReportStrategies
             IWebElement textArea = wait.Until(p => p.FindElement(By.CssSelector(@"#description\-text #textarea")));
             textArea.SendKeys(description);
 
-            // Submit
-            IWebElement submit = wait.Until(p => p.FindElement(By.CssSelector(@"#buttons #submit\-button")));
-            submit.Click();
+            if (!_args.DryRun)
+            {
+                // Submit
+                IWebElement submit = wait.Until(p => p.FindElement(By.CssSelector(@"#buttons #submit\-button")));
+                submit.Click();
 
-            wait.Until(p => p.FindElement(By.CssSelector(@"yt\-confirm\-dialog\-renderer #main")));
+                wait.Until(p => p.FindElement(By.CssSelector(@"yt\-confirm\-dialog\-renderer #main")));
 
-            Log("  [OK] Report sent!", session.Sid, true, ConsoleColor.DarkGreen);
+                Log("  [OK] Report sent!", session.Sid, true, ConsoleColor.DarkGreen);
+            }
+            else
+            {
+                Log("  [OK] Dry run. Skip sending report.", session.Sid, true, ConsoleColor.DarkGreen);
+            }
         }
     }
 }

@@ -193,7 +193,7 @@ namespace YTStriker.ReportStrategies
             }
             else
             {
-                Log("  Sub-option selection skipped");
+                Log("  Sub-option selection skipped", session.Sid, true);
             }
 
             // Click on Next
@@ -223,13 +223,20 @@ namespace YTStriker.ReportStrategies
             textArea.SendKeys(description);
 
             // Submit
-            IWebElement submit = wait.Until(p => p.FindElement(By.CssSelector(@"#footer #next\-button")));
-            await Task.Delay(2000);
-            submit.Click();
+            if (!_args.DryRun)
+            {
+                IWebElement submit = wait.Until(p => p.FindElement(By.CssSelector(@"#footer #next\-button")));
+                await Task.Delay(2000);
+                submit.Click();
 
-            wait.Until(p => p.FindElement(By.CssSelector(@"yt\-confirm\-dialog\-renderer #main")));
+                wait.Until(p => p.FindElement(By.CssSelector(@"yt\-confirm\-dialog\-renderer #main")));
 
-            Log("  [OK] Report sent!", session.Sid, true, ConsoleColor.DarkGreen);
+                Log("  [OK] Report sent!", session.Sid, true, ConsoleColor.DarkGreen);
+            }
+            else
+            {
+                Log("  [OK] Dry run. Skip sending report.", session.Sid, true, ConsoleColor.DarkGreen);
+            }
         }
     }
 }
