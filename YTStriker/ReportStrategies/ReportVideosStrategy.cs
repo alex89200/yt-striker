@@ -55,7 +55,7 @@ namespace YTStriker.ReportStrategies
                     }
                     catch (Exception e)
                     {
-                        Log($"[FAIL] {e.Message}", session.Sid);
+                        Log($"  [FAIL] {e.Message}", session.Sid);
                     }
                 }
             }
@@ -115,7 +115,7 @@ namespace YTStriker.ReportStrategies
         private void ReportVideoOpenDialog(BrowserSession session)
         {
             WebDriverWait wait = session.Wait;
-            Log("     Trying to open a Report dialog...", session.Sid, true);
+            Log("  Trying to open a Report dialog...", session.Sid, true);
 
             // Click on "..." under the video
             IWebElement button = wait.Until(p => p.FindElement(By.CssSelector(@"#info #menu #button.dropdown\-trigger")));
@@ -159,7 +159,7 @@ namespace YTStriker.ReportStrategies
         private void ReportVideoChooseComplaint(BrowserSession session, int optionIndex, int subOptionIndex)
         {
             WebDriverWait wait = session.Wait;
-            Log("     Looking for possible complaint options...", session.Sid, true);
+            Log("  Looking for possible complaint options...", session.Sid, true);
 
             // Parse possible report options
             wait.Until(p => p.FindElement(By.CssSelector(@"tp\-yt\-paper\-dialog\-scrollable#scroller")));
@@ -202,7 +202,7 @@ namespace YTStriker.ReportStrategies
                 }
             }
 
-            Log($"     Options found. Selecting option: {optionIndex}...",  session.Sid, true);
+            Log($"  Options found. Selecting option: {optionIndex}...",  session.Sid, true);
 
             // Select needed option
             KeyValuePair<int, int> curOptionMap = optToSubMap[optionIndex];
@@ -212,7 +212,7 @@ namespace YTStriker.ReportStrategies
             // If sub-option dropdown exists
             if (curOptionMap.Value > -1)
             {
-                Log($"     Selecting sub-option: {subOptionIndex}...", session.Sid, true);
+                Log($"  Selecting sub-option: {subOptionIndex}...", session.Sid, true);
 
                 // Click it
                 wait.Until(p => options[curOptionMap.Value].Displayed);
@@ -235,7 +235,7 @@ namespace YTStriker.ReportStrategies
         private void ReportVideoSubmit(BrowserSession session, string description)
         {
             WebDriverWait wait = session.Wait;
-            Log("     Filling description and submitting report...", session.Sid, true);
+            Log("  Filling description and submitting report...", session.Sid, true);
 
             // Enter description
             IWebElement textArea = wait.Until(p => p.FindElement(By.CssSelector(@"#description\-text #textarea")));
@@ -245,7 +245,7 @@ namespace YTStriker.ReportStrategies
             IWebElement submit = wait.Until(p => p.FindElement(By.CssSelector(@"#buttons #submit\-button")));
             submit.Click();
 
-            Log("[OK] Report sent!", session.Sid, true);
+            Log("  [OK] Report sent!", session.Sid, true);
         }
     }
 }

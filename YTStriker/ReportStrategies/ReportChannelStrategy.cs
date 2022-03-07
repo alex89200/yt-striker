@@ -41,7 +41,7 @@ namespace YTStriker.ReportStrategies
             }
             catch (Exception e)
             {
-                Log($"  [FAIL] {e.Message}", session.Sid);
+                Log($"  [FAIL] {e.Message}", session?.Sid ?? -1);
             }
             finally
             {
@@ -218,7 +218,7 @@ namespace YTStriker.ReportStrategies
             await Task.Delay(2000);
             submit.Click();
 
-            Log("[OK] Report sent!", session.Sid, true);
+            Log("  [OK] Report sent!", session.Sid, true);
         }
     }
 }
