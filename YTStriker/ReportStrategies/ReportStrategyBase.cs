@@ -39,7 +39,6 @@ namespace YTStriker.ReportStrategies
 
                     foreach (string profileName in profileManager.ExistingProfiles)
                     {
-                        Log(profileName);
                         if (profileName.Contains("default"))
                         {
                             FirefoxProfile profile = profileManager.GetProfile(profileName);
@@ -74,14 +73,14 @@ namespace YTStriker.ReportStrategies
         {
             session.Driver?.Quit();
 
-            Log("Session closed.");
+            Log("Session closed.", session.Sid);
         }
 
         public abstract void Process();
 
         protected void Log(string message, int sid = -1, bool verbose = false)
         {
-            _logger.Log(sid > 0 ? $"[SID: {sid}] {message}" : message, verbose);
+            _logger.Log(sid > -1 ? $"[SID: {sid}] {message}" : message, verbose);
         }
     }
 }

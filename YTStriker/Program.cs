@@ -12,7 +12,7 @@ namespace YTStriker
         private static void Main(string[] args)
         {
 #if DEBUG
-            args = GetDebugArgs( ReportMode.videos, "FaktyICTVchannel", 2, 0, 50, WebBrowser.edge, true);
+            args = GetDebugArgs(ReportMode.videos, "RT", 2, 0, 20, WebBrowser.edge, true);
 #endif
 
             CommandLineArguments parsedArgs;
