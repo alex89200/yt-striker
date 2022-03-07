@@ -19,7 +19,7 @@ namespace YTStriker
             IEnumerable<Error> errors;
             if (TryParseArgs(args, out parsedArgs, out errors))
             {
-                Logger logger = new Logger(parsedArgs.Verbose);
+                ILogger logger = new ConsoleLogger(parsedArgs.Verbose);
                 IReportStrategy proc; 
                 switch (parsedArgs.Mode)
                 {

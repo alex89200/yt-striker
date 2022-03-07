@@ -12,7 +12,7 @@ namespace YTStriker.ReportStrategies
 {
     public class ReportVideosStrategy : ReportStrategyBase
     {
-        public ReportVideosStrategy(CommandLineArguments args, Logger logger)
+        public ReportVideosStrategy(CommandLineArguments args, ILogger logger)
             : base(args, logger)
         { }
 
@@ -33,8 +33,9 @@ namespace YTStriker.ReportStrategies
                         Log(url, session.Sid, true);
                     }
                 }
-
                 #endregion
+
+                Log("--------------------", session.Sid);
 
                 string description = File.ReadAllText(_args.DescriptionFile);
                 ReportVideos(session, videos, _args.MainComplaint, _args.SubComplaint, description);

@@ -52,11 +52,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ILogger.cs" />
     <Compile Include="Model\BrowserSession.cs" />
     <Compile Include="ReportStrategies\IReportStrategy.cs" />
     <Compile Include="ReportStrategies\ReportChannelStrategy.cs" />
     <Compile Include="Model\CommandLineArguments.cs" />
-    <Compile Include="Helpers\Logger.cs" />
+    <Compile Include="Helpers\ConsoleLogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\ReportMode.cs" />

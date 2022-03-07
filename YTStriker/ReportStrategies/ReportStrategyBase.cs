@@ -10,9 +10,9 @@ namespace YTStriker.ReportStrategies
     public abstract class ReportStrategyBase : IReportStrategy
     {
         protected readonly CommandLineArguments _args;
-        private readonly Logger _logger;
+        private readonly ILogger _logger;
 
-        protected ReportStrategyBase(CommandLineArguments args, Logger logger)
+        protected ReportStrategyBase(CommandLineArguments args, ILogger logger)
         {
             _args = args;
             _logger = logger;

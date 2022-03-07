@@ -10,7 +10,7 @@ namespace YTStriker.ReportStrategies
 {
     public class ReportChannelStrategy : ReportStrategyBase
     {
-        public ReportChannelStrategy(CommandLineArguments args, Logger logger) : base(args, logger)
+        public ReportChannelStrategy(CommandLineArguments args, ILogger logger) : base(args, logger)
         { }
 
         public override void Process()

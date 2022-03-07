@@ -2,11 +2,11 @@
 
 namespace YTStriker.Helpers
 {
-    public class Logger
+    public class ConsoleLogger : ILogger
     {
         private readonly bool _verboseEnabled;
 
-        public Logger(bool verbose)
+        public ConsoleLogger(bool verbose)
         {
             _verboseEnabled = verbose;
         }
