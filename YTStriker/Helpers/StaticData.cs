@@ -12,5 +12,11 @@ namespace YTStriker.Helpers
         {
             "пожаловаться", "report", "поскаржитися"
         };
+
+        
+        public static readonly IReadOnlyList<string> ReportUserNames = new List<string>
+        {
+            "пожаловаться на пользователя", "report user", "поскаржитися на користувача"
+        };
     }
 }
