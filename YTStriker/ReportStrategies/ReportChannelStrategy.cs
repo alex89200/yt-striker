@@ -28,20 +28,57 @@ namespace YTStriker.ReportStrategies
 
                 string description = File.ReadAllText(_args.DescriptionFile);
 
-                Log($"Processing channel: {_args.ChannelName}", session.Sid);
-                Uri aboutUri = new Uri($"https://www.youtube.com/c/{_args.ChannelName}/about");
-                session.Driver.Navigate().GoToUrl(aboutUri);
+                // Fill the channels list
+                List<string> channels = new List<string>();
+                if (string.IsNullOrEmpty(_args.ChannelName) == false)
+                {
+                    channels.Add(_args.ChannelName);
+                }
+                else
+                {
+                    channels.AddRange(File.ReadLines(_args.InputFile));
+                }
 
-                await Task.Delay(3000);
+                Log($"Channels to process: {channels.Count}", session.Sid);
 
-                await ReportUserOpenDialog(session);
-                await ReportUserSelectComplaint(session, _args.MainComplaint, _args.SubComplaint);
-                await ReportUserSelectAbusiveVideos(session);
-                await ReportChannelSubmit(session, description);
+                #region Verbose log channels
+                if (_args.Verbose)
+                {
+                    foreach (string channel in channels)
+                    {
+                        Log($"  {channel}", session.Sid, true);
+                    }
+                }
+                #endregion
+
+                Log("-----------------");
+
+                // Process channels
+                foreach (string channelName in channels)
+                {
+                    Log($"Processing channel: {channelName}", session.Sid, false, ConsoleColor.DarkYellow);
+
+                    try
+                    {
+                        Uri aboutUri = new Uri($"https://www.youtube.com/c/{channelName}/about");
+                        session.Driver.Navigate().GoToUrl(aboutUri);
+
+                        await Task.Delay(3000);
+
+                        await ReportUserOpenDialog(session);
+                        await ReportUserSelectComplaint(session, _args.MainComplaint, _args.SubComplaint);
+                        await ReportUserSelectAbusiveVideos(session);
+                        await ReportChannelSubmit(session, description);
+                    }
+                    catch (Exception e)
+                    {
+                        Log($"  [FAIL] {e.Message}", session.Sid, false, ConsoleColor.Red);
+                    }
+                }
             }
             catch (Exception e)
             {
-                Log($"  [FAIL] {e.Message}", session?.Sid ?? -1);
+                Log($"ERROR: {e.Message}", session?.Sid ?? -1, false, ConsoleColor.Red);
             }
             finally
             {
@@ -49,10 +86,6 @@ namespace YTStriker.ReportStrategies
             }
         }
 
-        private async Task ReportChannel(BrowserSession session, string channelName)
-        {
-
-        }
 
         private async Task ReportUserOpenDialog(BrowserSession session)
         {
@@ -220,7 +253,7 @@ namespace YTStriker.ReportStrategies
 
             wait.Until(p => p.FindElement(By.CssSelector(@"yt\-confirm\-dialog\-renderer #main")));
 
-            Log("  [OK] Report sent!", session.Sid, true);
+            Log("  [OK] Report sent!", session.Sid, true, ConsoleColor.DarkGreen);
         }
     }
 }
