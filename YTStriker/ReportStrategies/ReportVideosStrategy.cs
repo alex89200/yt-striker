@@ -39,7 +39,24 @@ namespace YTStriker.ReportStrategies
                 Log("--------------------", session.Sid);
 
                 string description = File.ReadAllText(_args.DescriptionFile);
-                ReportVideos(session, videos, _args.MainComplaint, _args.SubComplaint, description);
+
+                // Report videos
+                foreach (string url in videos)
+                {
+                    try
+                    {
+                        Log($"\nProcessing: {url}", session.Sid);
+                        session.Driver.Navigate().GoToUrl(url);
+
+                        ReportVideoOpenDialog(session);
+                        ReportVideoChooseComplaint(session, _args.MainComplaint, _args.SubComplaint);
+                        ReportVideoSubmit(session, description);
+                    }
+                    catch (Exception e)
+                    {
+                        Log($"[FAIL] {e.Message}", session.Sid);
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -90,26 +107,6 @@ namespace YTStriker.ReportStrategies
             }
 
             return result;
-        }
-
-        private void ReportVideos(BrowserSession session, IEnumerable<string> videosUrls, int optionIndex, int subOptionIndex, string reportDescription)
-        {
-            foreach (string url in videosUrls)
-            {
-                try
-                {
-                    Log($"\nProcessing: {url}", session.Sid);
-                    session.Driver.Navigate().GoToUrl(url);
-
-                    ReportVideoOpenDialog(session);
-                    ReportVideoChooseComplaint(session, optionIndex, subOptionIndex);
-                    ReportVideoSubmit(session, reportDescription);
-                }
-                catch (Exception e)
-                {
-                    Log($"[FAIL] {e.Message}", session.Sid);
-                }
-            }
         }
 
         private void ReportVideoOpenDialog(BrowserSession session)
