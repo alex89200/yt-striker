@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
@@ -138,9 +139,8 @@ namespace YTStriker.ReportStrategies
                     try
                     {
                         string text = elem.FindElement(By.CssSelector(@"tp\-yt\-paper\-item > yt\-formatted\-string"))?.Text;
-                        HashSet<string> reportNames = new HashSet<string> { "Пожаловаться", "Report", "Поскаржитися" };
 
-                        if (reportNames.Contains(text))
+                        if (StaticData.ReportNames.Contains(text))
                         {
                             elem.Click();
                             reportClicked = true;

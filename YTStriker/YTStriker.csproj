@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ILogger.cs" />
+    <Compile Include="Helpers\StaticData.cs" />
     <Compile Include="Model\BrowserSession.cs" />
     <Compile Include="ReportStrategies\IReportStrategy.cs" />
     <Compile Include="ReportStrategies\ReportChannelStrategy.cs" />
