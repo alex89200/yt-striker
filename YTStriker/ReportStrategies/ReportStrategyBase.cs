@@ -79,9 +79,11 @@ namespace YTStriker.ReportStrategies
 
         public abstract Task Process();
 
-        protected void Log(string message, int sid = -1, bool verbose = false)
+        protected void Log(string message, int sid = -1, bool verbose = false, ConsoleColor color = ConsoleColor.Gray)
         {
+            Console.ForegroundColor = color;
             _logger.Log(sid > -1 ? $"[SID: {sid}] {message}" : message, verbose);
+            Console.ResetColor();
         }
     }
 }
