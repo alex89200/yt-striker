@@ -138,7 +138,7 @@ namespace YTStriker.ReportStrategies
                 {
                     try
                     {
-                        string text = elem.FindElement(By.CssSelector(@"tp\-yt\-paper\-item > yt\-formatted\-string"))?.Text;
+                        string text = elem.FindElement(By.CssSelector(@"tp\-yt\-paper\-item > yt\-formatted\-string"))?.Text.ToLowerInvariant();
 
                         if (StaticData.ReportNames.Contains(text))
                         {
