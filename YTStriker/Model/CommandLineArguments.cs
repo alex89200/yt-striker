@@ -38,7 +38,7 @@ namespace YTStriker.Model
             HelpText = "Index of the sub-complaint in a dropdown if relevant. Default is the first in the list.")]
         public int SubComplaint { get; set; }
 
-        [Option('d', "desc", Default = "description.txt" , Required = true,
+        [Option('d', "desc", Default = "description.txt" , Required = false,
             HelpText = "Path to the file with text which will be used as a violation description in the report.")]
         public string DescriptionFile { get; set; }
 
