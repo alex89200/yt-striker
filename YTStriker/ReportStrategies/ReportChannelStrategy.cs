@@ -112,7 +112,7 @@ namespace YTStriker.ReportStrategies
                             break;
                         }
                     }
-                    catch (NoSuchElementException nseException)
+                    catch (NoSuchElementException)
                     { }
                 }
 
