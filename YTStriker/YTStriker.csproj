@@ -46,7 +46,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
@@ -83,6 +83,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="External\Helpers\ProcessVideos_Firefox.bat" />
+    <None Include="External\Helpers\ProcessVideos_Chrome.bat" />
+    <None Include="External\Helpers\ProcessVideos_Edge.bat" />
+    <None Include="External\Helpers\ProcessChannels_Firefox.bat" />
+    <None Include="External\Helpers\ProcessChannels_Chrome.bat" />
+    <None Include="External\Helpers\ProcessChannels_Edge.bat" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
@@ -91,6 +97,7 @@
     <Content Include="External\Drivers\Win64\chromedriver.exe" />
     <Content Include="External\Drivers\Win64\geckodriver.exe" />
     <Content Include="External\Drivers\Win64\msedgedriver.exe" />
+    <Content Include="External\Helpers\Targets.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">
@@ -107,6 +114,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(ProjectDir)\External\Drivers\Win64\*.*" "$(TargetDir)"  /y /i
+
+xcopy "$(ProjectDir)\External\Helpers\*.*" "$(TargetDir)"  /y /i
+
 xcopy "$(ProjectDir)\External\description.txt" "$(TargetDir)" /y</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
