@@ -21,50 +21,7 @@ namespace YTStriker
             if (TryParseArgs(args, out parsedArgs, out errors))
             {
                 ILogger logger = new ConsoleLogger(parsedArgs.Verbose);
-                IReportStrategy proc; 
-                switch (parsedArgs.Mode)
-                {
-                    case ReportMode.channel:
-                    {
-                        // Ensure login
-                        var loginProc = new LoginStrategy(parsedArgs, logger);
-                        loginProc.Process().Wait();
-
-                        // Select violence as a default option
-                        if (parsedArgs.MainComplaint == -1)
-                            parsedArgs.MainComplaint = 5;
-
-                        proc = new ReportChannelStrategy(parsedArgs, logger);
-                        break;
-                    }
-
-                    case ReportMode.videos:
-                    {
-                        // Ensure login
-                        var loginProc = new LoginStrategy(parsedArgs, logger);
-                        loginProc.Process().Wait();
-
-                        // Select violence as a default option
-                        if (parsedArgs.MainComplaint == -1)
-                            parsedArgs.MainComplaint = 2;
-
-                        // Select first sub-option as a default
-                        if (parsedArgs.SubComplaint == -1)
-                            parsedArgs.SubComplaint = 0;
-
-                        proc = new ReportVideosStrategy(parsedArgs, logger);
-                        break;
-                    }
-
-                    case ReportMode.login:
-                    {
-                        proc = new LoginStrategy(parsedArgs, logger);
-                        break;
-                    }
-
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(parsedArgs.Mode), "Unknown mode");
-                }
+                IReportStrategy proc = CreateReportStrategy(parsedArgs, logger);
 
                 proc.Process().Wait();
 
@@ -75,6 +32,50 @@ namespace YTStriker
             {
                 Console.Error.Write("Please check passed parameters and try again.");
                 Console.ReadKey();
+            }
+        }
+
+        private static IReportStrategy CreateReportStrategy(CommandLineArguments parsedArgs, ILogger logger)
+        {
+            switch (parsedArgs.Mode)
+            {
+                case ReportMode.channel:
+                {
+                    // Ensure login
+                    var loginProc = new LoginStrategy(parsedArgs, logger);
+                    loginProc.Process().Wait();
+
+                    // Select violence as a default option
+                    if (parsedArgs.MainComplaint == -1)
+                        parsedArgs.MainComplaint = 5;
+
+                    return new ReportChannelStrategy(parsedArgs, logger);
+                }
+
+                case ReportMode.videos:
+                {
+                    // Ensure login
+                    var loginProc = new LoginStrategy(parsedArgs, logger);
+                    loginProc.Process().Wait();
+
+                    // Select violence as a default option
+                    if (parsedArgs.MainComplaint == -1)
+                        parsedArgs.MainComplaint = 2;
+
+                    // Select first sub-option as a default
+                    if (parsedArgs.SubComplaint == -1)
+                        parsedArgs.SubComplaint = 0;
+
+                    return new ReportVideosStrategy(parsedArgs, logger);
+                }
+
+                case ReportMode.login:
+                {
+                    return new LoginStrategy(parsedArgs, logger);
+                }
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(parsedArgs.Mode), "Unknown mode");
             }
         }
 
