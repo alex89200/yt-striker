@@ -102,7 +102,13 @@
     <None Include="External\Helpers\Win64\ProcessVideos_Chrome.bat" />
     <None Include="External\Helpers\Win64\ProcessVideos_Edge.bat" />
     <None Include="External\Helpers\Win64\ProcessVideos_Firefox.bat" />
-    <None Include="External\MacApp\Contents\Info.plist" />
+    <None Include="External\Helpers\MacOS\ytstriker.sh" />
+    <None Include="External\Helpers\MacOS\ProcessChannels_Chrome.sh" />
+    <None Include="External\Helpers\MacOS\ProcessChannels_Firefox.sh" />
+    <None Include="External\Helpers\MacOS\ProcessChannels_Edge.sh" />
+    <None Include="External\Helpers\MacOS\ProcessVideos_Chrome.sh" />
+    <None Include="External\Helpers\MacOS\ProcessVideos_Firefox.sh" />
+    <None Include="External\Helpers\MacOS\ProcessVideos_Edge.sh" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -129,10 +135,6 @@
     <Folder Include="External\Helpers\Win64\" />
     <Folder Include="External\Helpers\MacOS\" />
     <Folder Include="External\TextData\" />
-    <Folder Include="External\MacApp\" />
-    <Folder Include="External\MacApp\Contents\" />
-    <Folder Include="External\MacApp\Contents\Resources\" />
-    <Folder Include="External\MacApp\Contents\MacOS\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--

@@ -1,2 +1,2 @@
 ﻿@echo off
-YTStriker.exe -m channel -b edge -f Targets.txt
+YTStriker.exe -m channel -b edge -f targets.txt

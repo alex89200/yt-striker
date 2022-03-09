@@ -1,2 +1,2 @@
 ﻿@echo off
-YTStriker.exe -m videos -b firefox -f Targets.txt --limit=30
+YTStriker.exe -m videos -b firefox -f targets.txt --limit=30

@@ -1,2 +1,2 @@
 ﻿@echo off
-YTStriker.exe -m videos -b edge -f Targets.txt --limit=30
+YTStriker.exe -m videos -b edge -f targets.txt --limit=30
