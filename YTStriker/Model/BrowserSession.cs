@@ -18,5 +18,10 @@ namespace YTStriker.Model
             Wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
             Sid = _sessionId++;
         }
+
+        public void SetPageLoadTimeout(TimeSpan timeouts)
+        {
+            Driver.Manage().Timeouts().PageLoad = timeouts;
+        }
     }
 }

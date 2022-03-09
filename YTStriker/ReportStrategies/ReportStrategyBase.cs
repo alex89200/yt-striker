@@ -66,7 +66,8 @@ namespace YTStriker.ReportStrategies
                     throw new ArgumentOutOfRangeException(nameof(browser), browser, "Unknown browser");
             }
 
-            
+            session.SetPageLoadTimeout(TimeSpan.FromMinutes(2));
+
             Log("Session created.", session.Sid);
 
             return session;
