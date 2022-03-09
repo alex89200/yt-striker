@@ -4,6 +4,7 @@
     {
         chrome,
         firefox,
-        edge
+        edge,
+        opera
     }
 }

@@ -28,38 +28,64 @@ namespace YTStriker.ReportStrategies
             switch (browser)
             {
                 case WebBrowser.chrome:
-                {
-                    ChromeOptions options = new ChromeOptions();
-                    options.AddArgument($"user-data-dir={Environment.GetEnvironmentVariable("LocalAppData")}\\Google\\Chrome\\User Data");
-                    session = new BrowserSession(new ChromeDriver(options), _args.Timeout);
-                    break;
-                }
-
-                case WebBrowser.firefox:
-                {
-                    FirefoxOptions options = new FirefoxOptions();
-                    FirefoxProfileManager profileManager = new FirefoxProfileManager();
-
-                    foreach (string profileName in profileManager.ExistingProfiles)
                     {
-                        if (profileName.Contains("default"))
-                        {
-                            FirefoxProfile profile = profileManager.GetProfile(profileName);
-                            options.Profile = profile;
-                        }
+                        ChromeOptions options = new ChromeOptions();
+                        //options.AddArgument($"user-data-dir={Environment.GetEnvironmentVariable("LocalAppData")}\\Google\\Chrome\\User Data");
+                        //options.AddArgument($"user-data-dir={Environment.GetFolderPath(Environment.SpecialFolder.Personal)}/Library/Application Support/Google/Chrome/");
+                        options.AddArgument($"user-data-dir=./Profiles/Chrome/");
+                        options.AddArguments("profile-directory=Default");
+                        session = new BrowserSession(new ChromeDriver(options), _args.Timeout);
+                        break;
                     }
 
-                    session = new BrowserSession(new FirefoxDriver(options), _args.Timeout);
-                    break;
-                }
+                case WebBrowser.firefox:
+                    {
+                        FirefoxOptions options = new FirefoxOptions();
+                        options.AddArguments($"user-data-dir=./Profiles/Firefox/");
+                        options.AddArguments("profile-directory=Default");
+
+                        /*
+                        FirefoxProfileManager profileManager = new FirefoxProfileManager();
+
+                        foreach (string profileName in profileManager.ExistingProfiles)
+                        {
+                            if (profileName.Contains("default"))
+                            {
+                                FirefoxProfile profile = profileManager.GetProfile(profileName);
+                                options.Profile = profile;
+                            }
+                        }
+                        */
+
+                        session = new BrowserSession(new FirefoxDriver(options), _args.Timeout);
+                        break;
+                    }
 
                 case WebBrowser.edge:
-                {
-                    EdgeOptions options = new EdgeOptions();
-                    options.AddArguments($"user-data-dir={Environment.GetEnvironmentVariable("LocalAppData")}\\Microsoft\\Edge\\User Data");
-                    options.AddArguments("profile-directory=Default");
-                    session = new BrowserSession(new EdgeDriver(options), _args.Timeout);
-                    break;
+                    {
+                        EdgeOptions options = new EdgeOptions();
+                        //options.AddArguments($"user-data-dir={Environment.GetEnvironmentVariable("LocalAppData")}\\Microsoft\\Edge\\User Data");
+                        options.AddArguments($"user-data-dir=./Profiles/Edge/");
+                        options.AddArguments("profile-directory=Default");
+                        session = new BrowserSession(new EdgeDriver(options), _args.Timeout);
+                        break;
+                    }
+
+                case WebBrowser.opera:
+                    {
+#if PLATFORM_WINDOWS
+                        OperaOptions options = new OperaOptions();
+                        OperaDriverService service = OperaDriverService.CreateDefaultService("./", "operadriver");
+                        options.AddArgument($"user-data-dir=./Profiles/Opera/");
+                        options.AddArguments("profile-directory=Default");
+                    
+
+
+                        session = new BrowserSession(new OperaDriver(service, options), _args.Timeout);
+                        break;              
+#else
+                        throw new InvalidOperationException("Opera is not supported on this platform");
+#endif
                 }
 
                 default:
