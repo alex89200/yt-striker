@@ -7,7 +7,7 @@ namespace YTStriker.Model
         private const int VIDEOS_LIMIT = 30;
 
         [Option('m', "mode", Default = ReportMode.videos, Required = false,
-            HelpText = "Processing mode. Possible values:\nchannel - report author of the channel\nvideos - report separate videos.")]
+            HelpText = "Processing mode. Possible values:\nchannel - report author of the channel\nvideos - report separate videos\nlogin - login to YouTube account.")]
         public ReportMode Mode { get; set; }
 
         [Option('b', "browser", Default = WebBrowser.edge, Required = false,

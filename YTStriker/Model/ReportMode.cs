@@ -3,6 +3,7 @@
     public enum ReportMode
     {
         channel,
-        videos
+        videos,
+        login
     }
 }
