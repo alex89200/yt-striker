@@ -80,24 +80,31 @@
     <Compile Include="ReportStrategies\ReportVideosStrategy.cs" />
     <Compile Include="Model\WebBrowser.cs" />
     <Compile Include="ReportStrategies\ReportStrategyBase.cs" />
+    <Compile Include="ReportStrategies\LoginStrategy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="External\Helpers\ProcessVideos_Firefox.bat" />
-    <None Include="External\Helpers\ProcessVideos_Chrome.bat" />
-    <None Include="External\Helpers\ProcessVideos_Edge.bat" />
-    <None Include="External\Helpers\ProcessChannels_Firefox.bat" />
-    <None Include="External\Helpers\ProcessChannels_Chrome.bat" />
-    <None Include="External\Helpers\ProcessChannels_Edge.bat" />
     <None Include="packages.config" />
+    <None Include="External\Drivers\Win64\operadriver.exe" />
+    <None Include="External\Drivers\MacOS\operadriver" />
+    <None Include="External\Drivers\MacOS\chromedriver" />
+    <None Include="External\Drivers\MacOS\geckodriver" />
+    <None Include="External\Drivers\MacOS\msedgedriver" />
+    <None Include="External\Helpers\Win64\ProcessChannels_Chrome.bat" />
+    <None Include="External\Helpers\Win64\ProcessChannels_Edge.bat" />
+    <None Include="External\Helpers\Win64\ProcessChannels_Firefox.bat" />
+    <None Include="External\Helpers\Win64\ProcessVideos_Chrome.bat" />
+    <None Include="External\Helpers\Win64\ProcessVideos_Edge.bat" />
+    <None Include="External\Helpers\Win64\ProcessVideos_Firefox.bat" />
+    <None Include="External\MacApp\Contents\Info.plist" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="External\description.txt" />
     <Content Include="External\Drivers\Win64\chromedriver.exe" />
     <Content Include="External\Drivers\Win64\geckodriver.exe" />
     <Content Include="External\Drivers\Win64\msedgedriver.exe" />
-    <Content Include="External\Helpers\Targets.txt" />
+    <Content Include="External\TextData\description.txt" />
+    <Content Include="External\TextData\targets.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6">
@@ -111,7 +118,18 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="External\Drivers\MacOS\" />
+    <Folder Include="External\Helpers\Win64\" />
+    <Folder Include="External\Helpers\MacOS\" />
+    <Folder Include="External\TextData\" />
+    <Folder Include="External\MacApp\" />
+    <Folder Include="External\MacApp\Contents\" />
+    <Folder Include="External\MacApp\Contents\Resources\" />
+    <Folder Include="External\MacApp\Contents\MacOS\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!--
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(ProjectDir)\External\Drivers\Win64\*.*" "$(TargetDir)"  /y /i
 
@@ -119,6 +137,29 @@ xcopy "$(ProjectDir)\External\Helpers\*.*" "$(TargetDir)"  /y /i
 
 xcopy "$(ProjectDir)\External\description.txt" "$(TargetDir)" /y</PostBuildEvent>
   </PropertyGroup>
+  -->
+  <Target Name="CopyFiles_Win" AfterTargets="Build" Condition=" '$(OS)' == 'Windows_NT'">
+    <ItemGroup>
+      <WebDrivers Include="$(ProjectDir)\External\Drivers\Win64\*.*" />
+      <HelperFiles Include="$(ProjectDir)\External\Helpers\Win64\*.*" />
+      <TextFiles Include="$(ProjectDir)\External\TextData\*.*" />
+    </ItemGroup>
+        
+    <Copy SourceFiles="@(WebDrivers)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(HelperFiles)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(TextFiles)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="CopyFiles_Mac" AfterTargets="Build" Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">
+    <ItemGroup>
+      <WebDrivers Include="$(ProjectDir)\External\Drivers\MacOS\*.*" />
+      <HelperFiles Include="$(ProjectDir)\External\Helpers\MacOS\*.*" />
+      <TextFiles Include="$(ProjectDir)\External\TextData\*.*" />
+    </ItemGroup>
+        
+    <Copy SourceFiles="@(WebDrivers)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(HelperFiles)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(TextFiles)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
