@@ -5,7 +5,7 @@ Command-line automation tool to report YouTube channels and videos. It uses Sele
 
 ### Supported OS
 * Windows
-* ~~MacOS~~ (planned)
+* MacOS (using Mono)
 
 ### Supported browsers
 * Microsoft Edge (recommended)
@@ -21,23 +21,17 @@ Command-line automation tool to report YouTube channels and videos. It uses Sele
 
 ### Quick Guide
 
-1. Open browser you want to use and login/create a user profile. Recommended browser - Microsoft Edge<br>
-*It is recommended to create a separate profile so as not to interfere with your main profile.*
-![Adding a Browser Profile][browser-profile]
-
-1. Navigate to YouTube and sign in. 
-*It is recommeded to create a separate YouTube account.*
-
-1. Close all tabs in the web browser and the browser itself<br>
-**Important!** Make sure you have a correct profile in your web browser and you are signed in to YouTube before closing web browser.
-
 1. Open "Targets.txt" file and add there channel names you want to report. Each channel on a separate line
 
 1. *\[Optional\]* Enable VPN. (Some channels may be restricted to access from different countries)
 
-1. Run `ProcessChannels_BROWSER.bat` if you want to report channel owners or `ProcessVideos_BROWSER.bat` if you want to report videos (BROWSER - the name of the web browser you want to use). It is recommended to use Edge because it is the most stable during automation.
+1. Run `ProcessChannels_BROWSER` if you want to report channel owners or `ProcessVideos_BROWSER` if you want to report videos (BROWSER - the name of the web browser you want to use). It is recommended to use Edge because it is the most stable during automation.<br><br>
+MacOS users should use Terminal to run the script. Just open Terminal, drag-drop the script on it and press Return. If Mono is not installed, it will be prompted to install it first.
+<br><br>
 
-Repeat the last three actions for each set of channels.
+**Important!**<br>
+>The first time you run this tool, it will be prompted to sign in to the YouTube profile. Program will wait for 5 minutes to let you to log in.<br>
+It is not recommended to use a personal account, it is better to create a separate one.
 
 <br>
 
@@ -88,6 +82,11 @@ This tool can be run manualy through the command line interface in order to have
 * Complaint and Sub-complaint arguments are simply indexes of the options to select (see image below). Indexing starts from zero. Skip them or pass -1 to automatically select 'Violence' related options.
 ![Complaint options][complaint-options]
 
+<br>
 
-[browser-profile]: Docs/img/browser_profile.png "Adding Browser Profile"
+#### **Useful Tips / Troubleshoot**
+- The tool runs web browsers using the separate user profiles. These profiles are created in the `Profiles` folder of the directory where the tool is located. If you want to switch/logout from the YouTube account - simply delete this folder;
+- You can not run a few copies of this tool in parallel. If you do so, you will receive an error that the web browser profile is already in use;
+- The tool supports only latest versions of the web browsers (currently they are v98 and v99).
+
 [complaint-options]: Docs/img/complaint_options.png "Complaint options"
