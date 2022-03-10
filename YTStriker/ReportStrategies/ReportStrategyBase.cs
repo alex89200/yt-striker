@@ -60,21 +60,6 @@ namespace YTStriker.ReportStrategies
                     break;
                 }
 
-                case WebBrowser.opera:
-                {
-#if PLATFORM_WINDOWS
-                    OperaOptions options = new OperaOptions();
-                    OperaDriverService service = OperaDriverService.CreateDefaultService("./", "operadriver.exe");
-                    options.AddArgument($"user-data-dir={profilesPath}");
-                    options.AddArguments("profile-directory=Default");
-
-                    session = new BrowserSession(new OperaDriver(service, options), _args.Timeout);
-                    break;              
-#else
-                    throw new InvalidOperationException("Opera is not supported on this platform");
-#endif
-                }
-
                 default:
                     throw new ArgumentOutOfRangeException(nameof(browser), browser, "Unknown browser");
             }

@@ -83,8 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="External\Drivers\Win64\operadriver.exe" />
-    <None Include="External\Drivers\MacOS\operadriver" />
     <None Include="External\Drivers\MacOS\chromedriver" />
     <None Include="External\Drivers\MacOS\geckodriver" />
     <None Include="External\Drivers\MacOS\msedgedriver" />
