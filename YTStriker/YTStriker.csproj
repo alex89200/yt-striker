@@ -48,7 +48,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>0</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>  
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
     <DefineConstants>PLATFORM_WINDOWS;$(DefineConstants)</DefineConstants>
   </PropertyGroup>
@@ -56,10 +56,6 @@
     <DefineConstants>PLATFORM_MACOS;$(DefineConstants)</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommandLine, Version=2.8.0.0, Culture=neutral, PublicKeyToken=5a870481e358d379, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommandLineParser.2.8.0\lib\net45\CommandLine.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -67,10 +63,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebDriver, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Selenium.WebDriver.4.1.0\lib\net46\WebDriver.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ILogger.cs" />
@@ -90,7 +82,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
     <None Include="External\Drivers\Win64\operadriver.exe" />
     <None Include="External\Drivers\MacOS\operadriver" />
     <None Include="External\Drivers\MacOS\chromedriver" />
@@ -110,7 +101,14 @@
     <None Include="External\Helpers\MacOS\ProcessVideos_Firefox.sh" />
     <None Include="External\Helpers\MacOS\ProcessVideos_Edge.sh" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser">
+      <Version>2.8.0</Version>
+    </PackageReference>
+    <PackageReference Include="Selenium.WebDriver">
+      <Version>4.1.0</Version>
+    </PackageReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="External\Drivers\Win64\chromedriver.exe" />
     <Content Include="External\Drivers\Win64\geckodriver.exe" />
@@ -130,12 +128,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="External\Drivers\MacOS\" />
-    <Folder Include="External\Helpers\Win64\" />
-    <Folder Include="External\Helpers\MacOS\" />
-    <Folder Include="External\TextData\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!--
   <PropertyGroup>
@@ -152,7 +145,6 @@ xcopy "$(ProjectDir)\External\description.txt" "$(TargetDir)" /y</PostBuildEvent
       <HelperFiles Include="$(ProjectDir)\External\Helpers\Win64\*.*" />
       <TextFiles Include="$(ProjectDir)\External\TextData\*.*" />
     </ItemGroup>
-        
     <Copy SourceFiles="@(WebDrivers)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
     <Copy SourceFiles="@(HelperFiles)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
     <Copy SourceFiles="@(TextFiles)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
@@ -163,7 +155,6 @@ xcopy "$(ProjectDir)\External\description.txt" "$(TargetDir)" /y</PostBuildEvent
       <HelperFiles Include="$(ProjectDir)\External\Helpers\MacOS\*.*" />
       <TextFiles Include="$(ProjectDir)\External\TextData\*.*" />
     </ItemGroup>
-        
     <Copy SourceFiles="@(WebDrivers)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
     <Copy SourceFiles="@(HelperFiles)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
     <Copy SourceFiles="@(TextFiles)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
