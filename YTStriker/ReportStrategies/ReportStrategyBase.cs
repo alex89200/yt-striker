@@ -26,7 +26,7 @@ namespace YTStriker.ReportStrategies
         {
             BrowserSession session;
             string execPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-            string profilesPath = $"{execPath}/Profiles/{browser.ToString()}";
+            string profilesPath = $"{execPath}\\Profiles\\{browser.ToString()}";
 
             switch (browser)
             {
@@ -42,9 +42,9 @@ namespace YTStriker.ReportStrategies
 
                 case WebBrowser.firefox:
                 {
+                    Directory.CreateDirectory(profilesPath);
                     FirefoxOptions options = new FirefoxOptions();
-                    options.AddArgument($"user-data-dir={profilesPath}");
-                    options.AddArguments("profile-directory=Default");
+                    options.AddArguments($"-profile", profilesPath);
 
                     session = new BrowserSession(new FirefoxDriver(options), _args.Timeout);
                     break;
