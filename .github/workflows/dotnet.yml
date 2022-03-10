@@ -13,14 +13,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-    - name: Restore dependencies
-      working-directory: ./YTStriker
-      run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: msbuild ./YTStriker.sln /t:Build /restore /p:configuration="Release"
+#    - name: Restore dependencies
+#      run: dotnet restore ./YTStriker.sln
+#    - name: Build
+#      run: dotnet build ./YTStriker.sln  --configuration Release --no-restore
+#    - name: Test
+#      run: dotnet test --no-build --verbosity normal
