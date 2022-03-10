@@ -89,6 +89,10 @@ namespace YTStriker.ReportStrategies
             {
                 return false;
             }
+            catch (NoSuchElementException)
+            {
+                return false;
+            }
             catch (NotFoundException)
             {
                 return false;
