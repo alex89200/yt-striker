@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Opera;
 using YTStriker.Helpers;
 using YTStriker.Model;
 
