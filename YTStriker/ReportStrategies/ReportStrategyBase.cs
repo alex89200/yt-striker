@@ -25,16 +25,17 @@ namespace YTStriker.ReportStrategies
         protected BrowserSession CreateSession(WebBrowser browser)
         {
             BrowserSession session;
+            string execPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
+            string profilesPath = $"{execPath}/Profiles/{browser.ToString()}";
 
             switch (browser)
             {
                 case WebBrowser.chrome:
                 {
                     ChromeOptions options = new ChromeOptions();
-                    //options.AddArgument($"user-data-dir={Environment.GetEnvironmentVariable("LocalAppData")}\\Google\\Chrome\\User Data");
-                    //options.AddArgument($"user-data-dir={Environment.GetFolderPath(Environment.SpecialFolder.Personal)}/Library/Application Support/Google/Chrome/");
-                    options.AddArgument($"user-data-dir=./Profiles/Chrome/");
+                    options.AddArgument($"user-data-dir={profilesPath}");
                     options.AddArguments("profile-directory=Default");
+
                     session = new BrowserSession(new ChromeDriver(options), _args.Timeout);
                     break;
                 }
@@ -42,21 +43,8 @@ namespace YTStriker.ReportStrategies
                 case WebBrowser.firefox:
                 {
                     FirefoxOptions options = new FirefoxOptions();
-                    options.AddArguments($"user-data-dir=./Profiles/Firefox/");
+                    options.AddArgument($"user-data-dir={profilesPath}");
                     options.AddArguments("profile-directory=Default");
-
-                    /*
-                    FirefoxProfileManager profileManager = new FirefoxProfileManager();
-
-                    foreach (string profileName in profileManager.ExistingProfiles)
-                    {
-                        if (profileName.Contains("default"))
-                        {
-                            FirefoxProfile profile = profileManager.GetProfile(profileName);
-                            options.Profile = profile;
-                        }
-                    }
-                    */
 
                     session = new BrowserSession(new FirefoxDriver(options), _args.Timeout);
                     break;
@@ -65,9 +53,9 @@ namespace YTStriker.ReportStrategies
                 case WebBrowser.edge:
                 {
                     EdgeOptions options = new EdgeOptions();
-                    //options.AddArguments($"user-data-dir={Environment.GetEnvironmentVariable("LocalAppData")}\\Microsoft\\Edge\\User Data");
-                    options.AddArguments($"user-data-dir=./Profiles/Edge/");
+                    options.AddArgument($"user-data-dir={profilesPath}");
                     options.AddArguments("profile-directory=Default");
+
                     session = new BrowserSession(new EdgeDriver(options), _args.Timeout);
                     break;
                 }
@@ -76,11 +64,9 @@ namespace YTStriker.ReportStrategies
                 {
 #if PLATFORM_WINDOWS
                     OperaOptions options = new OperaOptions();
-                    OperaDriverService service = OperaDriverService.CreateDefaultService("./", "operadriver");
-                    options.AddArgument($"user-data-dir=./Profiles/Opera/");
+                    OperaDriverService service = OperaDriverService.CreateDefaultService("./", "operadriver.exe");
+                    options.AddArgument($"user-data-dir={profilesPath}");
                     options.AddArguments("profile-directory=Default");
-                
-
 
                     session = new BrowserSession(new OperaDriver(service, options), _args.Timeout);
                     break;              
@@ -125,7 +111,7 @@ namespace YTStriker.ReportStrategies
 
             Log($"Channels to process: {result.Count}", session.Sid);
 
-            #region Verbose log channels
+#region Verbose log channels
             if (_args.Verbose)
             {
                 foreach (string channel in result)
@@ -133,7 +119,7 @@ namespace YTStriker.ReportStrategies
                     Log($"  {channel}", session.Sid, true);
                 }
             }
-            #endregion
+#endregion
 
             Log("-----------------", session.Sid);
 
