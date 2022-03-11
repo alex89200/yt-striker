@@ -186,6 +186,7 @@ namespace YTStriker.ReportStrategies
                 wait.Until(p => options[curOptionMap.Value].Displayed);
                 IWebElement dropDown = options[curOptionMap.Value];
                 dropDown.Click();
+                await Task.Delay(1000);
 
                 // Parse sub-options
                 ReadOnlyCollection<IWebElement> subOpt = wait.Until(p =>
