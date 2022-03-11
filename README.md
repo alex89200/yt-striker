@@ -1,4 +1,6 @@
 # YT Striker
+![master](https://github.com/alex89200/yt-striker/actions/workflows/master.yml/badge.svg)
+![develop](https://github.com/alex89200/yt-striker/actions/workflows/develop.yml/badge.svg)
 
 ## Language
 * **English**
