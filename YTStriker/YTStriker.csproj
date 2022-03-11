@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FDABE385-E111-40F8-B93E-CCEEEB714164}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YTStriker</RootNamespace>
+    <AssemblyName>YTStriker</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>0</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
+    <DefineConstants>PLATFORM_WINDOWS;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">
+    <DefineConstants>PLATFORM_MACOS;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Helpers\ILogger.cs" />
+    <Compile Include="Helpers\StaticData.cs" />
+    <Compile Include="Model\BrowserSession.cs" />
+    <Compile Include="ReportStrategies\IReportStrategy.cs" />
+    <Compile Include="ReportStrategies\ReportChannelStrategy.cs" />
+    <Compile Include="Model\CommandLineArguments.cs" />
+    <Compile Include="Helpers\ConsoleLogger.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\ReportMode.cs" />
+    <Compile Include="ReportStrategies\ReportVideosStrategy.cs" />
+    <Compile Include="Model\WebBrowser.cs" />
+    <Compile Include="ReportStrategies\ReportStrategyBase.cs" />
+    <Compile Include="ReportStrategies\LoginStrategy.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="External\Drivers\MacOS\chromedriver" />
+    <None Include="External\Drivers\MacOS\geckodriver" />
+    <None Include="External\Drivers\MacOS\msedgedriver" />
+    <None Include="External\Helpers\Win64\ProcessChannels_Chrome.bat" />
+    <None Include="External\Helpers\Win64\ProcessChannels_Edge.bat" />
+    <None Include="External\Helpers\Win64\ProcessChannels_Firefox.bat" />
+    <None Include="External\Helpers\Win64\ProcessVideos_Chrome.bat" />
+    <None Include="External\Helpers\Win64\ProcessVideos_Edge.bat" />
+    <None Include="External\Helpers\Win64\ProcessVideos_Firefox.bat" />
+    <None Include="External\Helpers\MacOS\ytstriker.sh" />
+    <None Include="External\Helpers\MacOS\ProcessChannels_Chrome.sh" />
+    <None Include="External\Helpers\MacOS\ProcessChannels_Firefox.sh" />
+    <None Include="External\Helpers\MacOS\ProcessChannels_Edge.sh" />
+    <None Include="External\Helpers\MacOS\ProcessVideos_Chrome.sh" />
+    <None Include="External\Helpers\MacOS\ProcessVideos_Firefox.sh" />
+    <None Include="External\Helpers\MacOS\ProcessVideos_Edge.sh" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.8.0">
+    </PackageReference>
+    <PackageReference Include="Selenium.WebDriver" Version="4.1.0">
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="External\Drivers\Win64\chromedriver.exe" />
+    <Content Include="External\Drivers\Win64\geckodriver.exe" />
+    <Content Include="External\Drivers\Win64\msedgedriver.exe" />
+    <Content Include="External\TextData\description.txt" />
+    <Content Include="External\TextData\targets.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!--
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)\External\Drivers\Win64\*.*" "$(TargetDir)"  /y /i
+
+xcopy "$(ProjectDir)\External\Helpers\*.*" "$(TargetDir)"  /y /i
+
+xcopy "$(ProjectDir)\External\description.txt" "$(TargetDir)" /y</PostBuildEvent>
+  </PropertyGroup>
+  -->
+  <Target Name="CopyFiles_Win" AfterTargets="Build" Condition=" '$(OS)' == 'Windows_NT'">
+    <ItemGroup>
+      <WebDrivers Include="$(ProjectDir)\External\Drivers\Win64\*.*" />
+      <HelperFiles Include="$(ProjectDir)\External\Helpers\Win64\*.*" />
+      <TextFiles Include="$(ProjectDir)\External\TextData\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(WebDrivers)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(HelperFiles)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(TextFiles)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="CopyFiles_Mac" AfterTargets="Build" Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))'">
+    <ItemGroup>
+      <WebDrivers Include="$(ProjectDir)\External\Drivers\MacOS\*.*" />
+      <HelperFiles Include="$(ProjectDir)\External\Helpers\MacOS\*.*" />
+      <TextFiles Include="$(ProjectDir)\External\TextData\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(WebDrivers)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(HelperFiles)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(TextFiles)" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
