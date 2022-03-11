@@ -1,5 +1,9 @@
 # YT Striker
 
+## Language
+* **English**
+* [Українська](Docs/README_UA.md)
+
 ## Description
 Command-line automation tool to report YouTube channels and videos. It uses Selenium WebDriver as an automation backend.
 
@@ -21,7 +25,9 @@ Command-line automation tool to report YouTube channels and videos. It uses Sele
 
 ### Quick Guide
 
-1. Open "Targets.txt" file and add there channel names you want to report. Each channel on a separate line
+1. Open "targets.txt" file and add there channel URLs you want to report. Each channel on a separate line. URL must not end with `/videos`, `/about`, `/featured`, etc. Examples of correct URLs:
+    * `https://www.youtube.com/c/FaktyICTVchannel`
+    * `https://www.youtube.com/channel/UC9zktRjA2aI7cEZOfkDqmLg`
 
 1. *\[Optional\]* Enable VPN. (Some channels may be restricted to access from different countries)
 
