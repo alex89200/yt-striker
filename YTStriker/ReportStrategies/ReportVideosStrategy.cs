@@ -85,7 +85,8 @@ namespace YTStriker.ReportStrategies
         {
             HashSet<string> result = new HashSet<string>();
 
-            Uri videosUri = new Uri($"https://www.youtube.com/c/{channelName}/videos");
+            Uri videosUri = new Uri(channelName);
+            videosUri = new Uri(videosUri, "videos");
             session.Driver.Navigate().GoToUrl(videosUri);
             await Task.Delay(2000);
 

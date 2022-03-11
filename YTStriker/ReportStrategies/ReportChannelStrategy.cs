@@ -36,7 +36,8 @@ namespace YTStriker.ReportStrategies
 
                     try
                     {
-                        Uri aboutUri = new Uri($"https://www.youtube.com/c/{channelName}/about");
+                        Uri aboutUri = new Uri("channelName");
+                        aboutUri = new Uri(aboutUri, "about");
                         session.Driver.Navigate().GoToUrl(aboutUri);
 
                         await Task.Delay(3000);
