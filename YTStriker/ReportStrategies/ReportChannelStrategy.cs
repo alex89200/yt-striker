@@ -30,13 +30,15 @@ namespace YTStriker.ReportStrategies
                 List<string> channels = GetChannelsList(session);
 
                 // Process channels
-                foreach (string channelName in channels)
+                foreach (string channelUrlRaw in channels)
                 {
-                    Log($"Processing channel: {channelName}", session.Sid, false, ConsoleColor.DarkYellow);
+                    string channelUrl = channelUrlRaw.EndsWith("/") ? channelUrlRaw : $"{channelUrlRaw}/";
+
+                    Log($"Processing channel: {channelUrl}", session.Sid, false, ConsoleColor.DarkYellow);
 
                     try
                     {
-                        Uri aboutUri = new Uri("channelName");
+                        Uri aboutUri = new Uri(channelUrl);
                         aboutUri = new Uri(aboutUri, "about");
                         session.Driver.Navigate().GoToUrl(aboutUri);
 

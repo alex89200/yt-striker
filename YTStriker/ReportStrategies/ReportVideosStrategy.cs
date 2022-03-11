@@ -81,11 +81,14 @@ namespace YTStriker.ReportStrategies
             }
         }
 
-        private async Task<ICollection<string>> GetVideosUrls(BrowserSession session, string channelName, int limit)
+        private async Task<ICollection<string>> GetVideosUrls(BrowserSession session, string channelUrl, int limit)
         {
             HashSet<string> result = new HashSet<string>();
 
-            Uri videosUri = new Uri(channelName);
+            if (!channelUrl.EndsWith("/"))
+                channelUrl = channelUrl + "/";
+
+            Uri videosUri = new Uri(channelUrl);
             videosUri = new Uri(videosUri, "videos");
             session.Driver.Navigate().GoToUrl(videosUri);
             await Task.Delay(2000);
